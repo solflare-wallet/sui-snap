@@ -1,9 +1,9 @@
 {
   "version": "0.0.1",
   "description": "The Sui Snap.",
-  "proposedName": "@rise-wallet/sui-snap",
+  "proposedName": "Sui Manager",
   "source": {
-    "shasum": "B1VDVtlHkI2LAnPiipSBf0p9eGaKWB8AZGTAjgJoFdA=",
+    "shasum": "lOdP9ffQjI/porH8OXxzdzlJlf/mvp4T6d7gN4hbbIs=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
