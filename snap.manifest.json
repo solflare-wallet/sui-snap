@@ -1,0 +1,34 @@
+{
+  "version": "0.0.1",
+  "description": "The Sui Snap.",
+  "proposedName": "@rise-wallet/sui-snap",
+  "source": {
+    "shasum": "B1VDVtlHkI2LAnPiipSBf0p9eGaKWB8AZGTAjgJoFdA=",
+    "location": {
+      "npm": {
+        "filePath": "dist/bundle.js",
+        "iconPath": "logo.svg",
+        "packageName": "@rise-wallet/sui-snap",
+        "registry": "https://registry.npmjs.org"
+      }
+    }
+  },
+  "initialPermissions": {
+    "endowment:rpc": {
+      "dapps": true,
+      "snaps": false
+    },
+    "snap_dialog": {},
+    "snap_getBip32Entropy": [
+      {
+        "path": [
+          "m",
+          "44'",
+          "784'"
+        ],
+        "curve": "ed25519"
+      }
+    ]
+  },
+  "manifestVersion": "0.1"
+}
