@@ -19,7 +19,7 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
             type: 'confirmation',
             content: panel([
               heading('Confirm access'),
-              text(`${origin} wants to know your Aptos address`)
+              text(`${origin} wants to know your Sui address`)
             ])
           }
         });
