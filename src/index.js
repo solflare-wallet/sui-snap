@@ -1,20 +1,20 @@
 import nacl from 'tweetnacl';
 import { blake2b } from '@noble/hashes/blake2b';
 import base64js from 'base64-js';
-import { panel, heading, text, copyable, divider } from '@metamask/snaps-ui';
 import { deriveKeyPair } from './privateKey';
-import { assertInput, assertConfirmation, bytesToHex } from './utils';
+import { assertInput, assertConfirmation, assertAllStrings, assertIsString, assertIsBoolean, assertIsArray, bytesToHex } from './utils';
+import { renderGetPublicKey, renderSignTransaction, renderSignAllTransactions, renderSignMessage } from './ui';
 
 module.exports.onRpcRequest = async ({ origin, request }) => {
-  // if (
-  //   !origin ||
-  //   (
-  //     !origin.match(/^https?:\/\/localhost:[0-9]{1,4}$/) &&
-  //     !origin.match(/^https?:\/\/(?:\S+\.)?elliwallet\.dev$/)
-  //   )
-  // ) {
-  //   throw new Error('Invalid origin');
-  // }
+  if (
+    !origin ||
+    (
+      !origin.match(/^https?:\/\/localhost:[0-9]{1,4}$/) &&
+      !origin.match(/^https?:\/\/(?:\S+\.)?elliwallet\.dev$/)
+    )
+  ) {
+    throw new Error('Invalid origin');
+  }
 
   const dappOrigin = request?.params?.origin || origin;
   const dappHost = (new URL(dappOrigin))?.host;
@@ -24,51 +24,31 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
       const { derivationPath, confirm = false } = request.params || {};
 
       assertInput(derivationPath);
+      assertIsString(derivationPath);
+      assertIsBoolean(confirm);
 
       const keyPair = await deriveKeyPair(derivationPath);
       const pubkey = base64js.fromByteArray(keyPair.publicKey);
 
       if (confirm) {
-        const accepted = await snap.request({
-          method: 'snap_dialog',
-          params: {
-            type: 'confirmation',
-            content: panel([
-              heading('Confirm access'),
-              text(dappHost),
-              divider(),
-              text(bytesToHex(keyPair.publicKey))
-            ])
-          }
-        });
-
+        const accepted = await renderGetPublicKey(dappHost, bytesToHex(keyPair.publicKey));
         assertConfirmation(accepted);
       }
 
       return pubkey;
     }
     case 'signTransaction': {
-      const { derivationPath, message, simulationResult } = request.params || {};
+      const { derivationPath, message, simulationResult = [], displayMessage = true } = request.params || {};
 
       assertInput(derivationPath);
+      assertIsString(derivationPath);
       assertInput(message);
+      assertIsString(message);
+      assertIsArray(simulationResult);
+      assertAllStrings(simulationResult);
+      assertIsBoolean(displayMessage);
 
-      const simulationResultItems = Array.isArray(simulationResult) ? simulationResult.map((item) => text(item)) : [];
-
-      const accepted = await snap.request({
-        method: 'snap_dialog',
-        params: {
-          type: 'confirmation',
-          content: panel([
-            heading('Sign transaction'),
-            text(dappHost),
-            divider(),
-            ...simulationResultItems,
-            copyable(message)
-          ])
-        }
-      });
-
+      const accepted = await renderSignTransaction(dappHost, message, simulationResult, displayMessage);
       assertConfirmation(accepted);
 
       const keyPair = await deriveKeyPair(derivationPath);
@@ -81,39 +61,22 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
       };
     }
     case 'signAllTransactions': {
-      const { derivationPath, messages, simulationResults } = request.params || {};
+      const { derivationPath, messages, simulationResults = [], displayMessage = true } = request.params || {};
 
       assertInput(derivationPath);
+      assertIsString(derivationPath);
       assertInput(messages);
+      assertIsArray(messages);
       assertInput(messages.length);
+      assertAllStrings(messages);
+      assertIsArray(simulationResults);
+      assertInput(messages.length === simulationResults.length);
+      assertIsBoolean(displayMessage);
 
-      const keyPair = await deriveKeyPair(derivationPath);
-
-      const uiElements = [];
-
-      for (let i = 0; i < messages?.length; i++) {
-        uiElements.push(divider());
-        uiElements.push(text(`Transaction ${i + 1}`));
-        if (Array.isArray(simulationResults?.[i])) {
-          simulationResults[i].forEach((item) => uiElements.push(text(item)));
-        }
-        uiElements.push(copyable(messages?.[i]));
-      }
-
-      const accepted = await snap.request({
-        method: 'snap_dialog',
-        params: {
-          type: 'confirmation',
-          content: panel([
-            heading('Sign transactions'),
-            text(dappHost),
-            ...uiElements
-          ])
-        }
-      });
-
+      const accepted = await renderSignAllTransactions(dappHost, messages, simulationResults, displayMessage);
       assertConfirmation(accepted);
 
+      const keyPair = await deriveKeyPair(derivationPath);
       const signatures = messages
         .map((message) => base64js.toByteArray(message))
         .map((message) => blake2b(message, { dkLen: 32 }))
@@ -129,7 +92,9 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
       const { derivationPath, message } = request.params || {};
 
       assertInput(derivationPath);
+      assertIsString(derivationPath);
       assertInput(message);
+      assertIsString(message);
 
       const keyPair = await deriveKeyPair(derivationPath);
 
@@ -142,19 +107,7 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
         decodedMessage = 'Unable to decode message';
       }
 
-      const accepted = await snap.request({
-        method: 'snap_dialog',
-        params: {
-          type: 'confirmation',
-          content: panel([
-            heading('Sign message'),
-            text(dappHost),
-            divider(),
-            copyable(decodedMessage)
-          ])
-        }
-      });
-
+      const accepted = await renderSignMessage(dappHost, decodedMessage);
       assertConfirmation(accepted);
 
       const hashedMessage = blake2b(messageBytes, { dkLen: 32 });
