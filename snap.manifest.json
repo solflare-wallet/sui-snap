@@ -3,7 +3,7 @@
   "description": "The Sui Snap.",
   "proposedName": "Sui Manager",
   "source": {
-    "shasum": "p/3rT8/ibujh3+Pxr1oUPeXzSUmN3l5aKYC+NRcn8dc=",
+    "shasum": "70Md3mx5j4LH1yipTmo9VXgqw3CQGvgg4ajzwmiiuqc=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
