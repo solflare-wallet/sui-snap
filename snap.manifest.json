@@ -8,7 +8,7 @@
       "npm": {
         "filePath": "dist/bundle.js",
         "iconPath": "logo.svg",
-        "packageName": "@rise-wallet/sui-snap",
+        "packageName": "@elli-wallet/sui-snap",
         "registry": "https://registry.npmjs.org"
       }
     }
