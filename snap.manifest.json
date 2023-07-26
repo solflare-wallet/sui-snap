@@ -1,9 +1,9 @@
 {
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "The Sui Snap.",
   "proposedName": "Sui Manager",
   "source": {
-    "shasum": "70Md3mx5j4LH1yipTmo9VXgqw3CQGvgg4ajzwmiiuqc=",
+    "shasum": "Qlo4/eo8vZpj91LYzm4Rxvr1LnU01t+7HCeME7IFkMY=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
