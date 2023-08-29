@@ -9,8 +9,8 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
   if (
     !origin ||
     (
-      !origin.match(/^https?:\/\/localhost:[0-9]{1,4}$/) &&
-      !origin.match(/^https?:\/\/(?:\S+\.)?elliwallet\.dev$/)
+      !origin.match(/^https:\/\/(?:\S+\.)?elliwallet\.com$/) &&
+      !origin.match(/^https:\/\/(?:\S+\.)?elliwallet\.dev$/)
     )
   ) {
     throw new Error('Invalid origin');
