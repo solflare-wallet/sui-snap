@@ -38,17 +38,14 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
       return pubkey;
     }
     case 'signTransaction': {
-      const { derivationPath, message, simulationResult = [], displayMessage = true } = request.params || {};
+      const { derivationPath, message } = request.params || {};
 
       assertInput(derivationPath);
       assertIsString(derivationPath);
       assertInput(message);
       assertIsString(message);
-      assertIsArray(simulationResult);
-      assertAllStrings(simulationResult);
-      assertIsBoolean(displayMessage);
 
-      const accepted = await renderSignTransaction(dappHost, message, simulationResult, displayMessage);
+      const accepted = await renderSignTransaction(dappHost, message);
       assertConfirmation(accepted);
 
       const keyPair = await deriveKeyPair(derivationPath);
@@ -61,7 +58,7 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
       };
     }
     case 'signAllTransactions': {
-      const { derivationPath, messages, simulationResults = [], displayMessage = true } = request.params || {};
+      const { derivationPath, messages } = request.params || {};
 
       assertInput(derivationPath);
       assertIsString(derivationPath);
@@ -69,11 +66,8 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
       assertIsArray(messages);
       assertInput(messages.length);
       assertAllStrings(messages);
-      assertIsArray(simulationResults);
-      assertInput(messages.length === simulationResults.length);
-      assertIsBoolean(displayMessage);
 
-      const accepted = await renderSignAllTransactions(dappHost, messages, simulationResults, displayMessage);
+      const accepted = await renderSignAllTransactions(dappHost, messages);
       assertConfirmation(accepted);
 
       const keyPair = await deriveKeyPair(derivationPath);
