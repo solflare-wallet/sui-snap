@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The Sui Snap.",
   "proposedName": "Sui Manager",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/solflare-wallet/sui-snap.git"
   },
   "source": {
-    "shasum": "aRZjBGPqMb5fh6reC8Qunm4A+r2WCLxp9OOXQD1MCqg=",
+    "shasum": "/6gQS72bsflSrrc75Dv87K3PYn/VBd7osujB4aLi1Uo=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
