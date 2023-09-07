@@ -7,7 +7,7 @@
     "url": "https://github.com/solflare-wallet/sui-snap.git"
   },
   "source": {
-    "shasum": "n37x5mPvj8ekKEIZzG9a3ZvO4PC+lakyCiSZdGBERjs=",
+    "shasum": "ABz7nLrozZ2ac3pXG6wbyW6qJcWoOOC6QxGdn16TF+k=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
