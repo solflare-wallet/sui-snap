@@ -1,7 +1,7 @@
 {
   "name": "@elli-wallet/sui-snap",
-  "version": "1.0.2",
-  "description": "The Sui Snap.",
+  "version": "1.0.3",
+  "description": "Manage Sui-based tokens and NFTs, stake and connect to Sui apps with your MetaMask.",
   "main": "src/index.js",
   "scripts": {
     "start": "mm-snap build && mm-snap serve",

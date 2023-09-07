@@ -1,13 +1,13 @@
 {
-  "version": "1.0.2",
-  "description": "The Sui Snap.",
-  "proposedName": "Sui Manager",
+  "version": "1.0.3",
+  "description": "Manage Sui-based tokens and NFTs, stake and connect to Sui apps with your MetaMask.",
+  "proposedName": "Sui Wallet",
   "repository": {
     "type": "git",
     "url": "https://github.com/solflare-wallet/sui-snap.git"
   },
   "source": {
-    "shasum": "/6gQS72bsflSrrc75Dv87K3PYn/VBd7osujB4aLi1Uo=",
+    "shasum": "1RMzoQoZq/i+/kgni8WeQHjMsvxnRVqQdpNPGqxAdTI=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
